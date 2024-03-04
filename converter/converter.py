@@ -26,19 +26,58 @@ class Converter:
                 f"{value} is not a valid number in {self.base_name} base"
             )
 
+    @staticmethod
+    def _format_oct(value: int) -> str:
+        octal_string = oct(value)[2:]
+        octal = " ".join(
+            reversed(
+                [
+                    octal_string[max(i - 3, 0) : i]
+                    for i in range(len(octal_string), 0, -3)
+                ]
+            )
+        )
+
+        return octal
+
+    @staticmethod
+    def _format_dec(value: int) -> str:
+        dec_string = str(value)
+        decimal = ".".join(
+            reversed(
+                [dec_string[max(i - 3, 0) : i] for i in range(len(dec_string), 0, -3)]
+            )
+        )
+
+        return decimal
+
+    @staticmethod
+    def _format_bin(value: int) -> str:
+        bin_string = bin(value)[2:]
+        missing_zeros = (4 - len(bin_string) % 4) % 4
+
+        bin_string = f"{'0' * missing_zeros + bin_string}"
+        binary = " ".join([bin_string[i : i + 4] for i in range(0, len(bin_string), 4)])
+
+        return binary
+
+    @staticmethod
+    def _format_hex(value: int) -> str:
+        hex_string = hex(value)[2:].upper()
+        hexadecimal = " ".join(
+            reversed(
+                [hex_string[max(i - 4, 0) : i] for i in range(len(hex_string), 0, -4)]
+            )
+        )
+
+        return hexadecimal
+
     def convert(self, value: int) -> Dict[str, str]:
         try:
-            octal = oct(value)[2:]
-            decimal = str(int(value))
-
-            binary_value = bin(value)[2:]
-            zeros_missing = (4 - len(binary_value) % 4) % 4
-            binary_value = ("0" * zeros_missing) + binary_value
-            binary = " ".join(
-                [binary_value[i : i + 4] for i in range(0, len(binary_value), 4)]
-            )
-
-            hexadecimal = hex(value)[2:].upper()
+            octal = self._format_oct(value)
+            decimal = self._format_dec(value)
+            binary = self._format_bin(value)
+            hexadecimal = self._format_hex(value)
 
             return {
                 "OCT": octal,
