@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "converter"
+version = "0.1.0"
+description = "Program to converter computer values"
+authors = ["Gutinnho <glunardi99@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.scripts]
+converter = 'converter.main:main'
+
+[tool.poetry.dependencies]
+python = "^3.10"
+click = "^8.1.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
