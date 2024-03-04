@@ -6,8 +6,16 @@ from .converter import Converter, make_converters
 
 def main():
     converters = make_converters()
+
     click.clear()
-    menu(converters)
+    option = "main"
+
+    while True:
+        if option == "main":
+            menu(converters)
+            option = click.getchar()
+        else:
+            option = chosse_option(option, converters)
 
 
 def menu(converters: List[Converter]) -> None:
@@ -26,3 +34,21 @@ def menu(converters: List[Converter]) -> None:
         click.echo()
     click.secho("q - quit", fg="red")
     click.echo()
+
+
+def chosse_option(option: str, converters: List[Converter]):
+    if option == "q":
+        exit()
+
+    for converter in converters:
+        if converter.abbr == option:
+            click.clear()
+            click.pause(
+                click.style(f"Option selected: {converter.base_name}", fg="green")
+            )
+            click.clear()
+            return "main"
+
+    click.pause(click.style("Invalid option", bold=True, fg="red"))
+    click.clear()
+    return "main"
